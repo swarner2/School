@@ -12,4 +12,8 @@ http.createServer( function ( request, response ) {
     request.addListener( 'end', function () {
         file.serve( request, response );
     } ).resume();
-} ).listen( port );
+} ).listen( port, function() {
+  console.log('Node app is running on port', port);
+});
+
+
