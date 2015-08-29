@@ -1,0 +1,17 @@
+{
+  "name": "School",
+  "version": "1.0.0",
+  "description": "A site that will port to a server so it can be used in an iframe",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Michael Warner",
+  "license": "MIT",
+  "dependencies": {
+    "node-static": "^0.7.7"
+  },
+  "devDependencies": {}
+}
