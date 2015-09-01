@@ -65,10 +65,8 @@ input{
 	float: right;
 	border: 1px #333 solid;
 	border-radius: 0px;
-	height: 26px;
-	max-height: 26px;
-	min-height: 26px;
-	width: 26px;
+	height: calc(1em + 15px);
+	width: calc(1em + 15px);
 	text-align: center;
 }
 .mainBtn{
