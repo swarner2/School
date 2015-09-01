@@ -5,8 +5,7 @@ body{
 	font-size:18px;
 }
 .word{
-	font-size: 20px;	
-	border-radius: 3px;
+	font-size: 20px;
 }
 
 .word:hover{
@@ -48,6 +47,8 @@ body{
 	float: right;
 	min-width: 80%;
 	height: 22px;
+	max-height: 22px;
+	min-height: 22px;
 	border: 1px #333 solid;
 	border-right-width: 0px;
 	border-radius: 0px;
@@ -57,6 +58,8 @@ body{
 	border: 1px #333 solid;
 	border-radius: 0px;
 	height: 26px;
+	max-height: 26px;
+	min-height: 26px;
 	width: 26px;
 	text-align: center;
 }
