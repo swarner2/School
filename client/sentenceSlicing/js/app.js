@@ -7,7 +7,6 @@ var text = 'I am a sentence slice me; No, for real slice me up. I am here to be 
 $(document).ready(function(){
 	//createSentence(sentence, '#sentence');
 	createText('#field', text);
-	-webkit-appearance: none;
 });
 
 var createText = function(renderPoint, text){

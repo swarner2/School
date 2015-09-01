@@ -3,6 +3,7 @@
 }
 body{
 	font-size:18px;
+	-webkit-appearance: none;
 }
 .word{
 	font-size: 20px;
