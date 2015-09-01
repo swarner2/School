@@ -2,7 +2,7 @@
 
 
 
-var text = 'I am a sentence slice me. No, for real slice me up. I am here to be sliced! Do you know what I mean?';
+var text = 'I am a sentence slice me; No, for real slice me up. I am here to be sliced! Do you know what I mean?';
 
 $(document).ready(function(){
 	//createSentence(sentence, '#sentence');
@@ -10,74 +10,99 @@ $(document).ready(function(){
 });
 
 var createText = function(renderPoint, text){
-	
-	var getSentences = function(text){
-		//This will find all the . ? and ! and show the index of their locations
-		var getIndex = function(text){
-			var character = ['.','?','!'];
-			var index = -1;
-			_.each(character, function(element){
-				var indexOf = text.indexOf(element);
-				if(index > indexOf && indexOf !== -1 || index === -1) index = indexOf;
-			});
-			if(index === -1) index = text.length;
-			return index;
-		};
-		//This will fill the array with the sliced up parts
-		var array = [];
-		while(text.length){
-			var index = getIndex(text)+1;
-			array.push(text.slice(0,index));
-			text = text.slice(index,text.length);
-		}
 
-		return array;
-	}
-	var render = function(sentences){
-		var renderSentences = function(sentences, renderPoint){
-			_.each(sentences, function(sentence){
-				var html = '<div class="sentence">';
-				_.each(sentence.split(' '), function(element){
-					html = html.concat(
-						'<span class="word">',
-							element,
-						'</span>'
-					);
-				});
-				html += '</div>';
-				$(renderPoint).html($(renderPoint).html() + html);
-				$( ".word" ).click(function() {
-				  console.log('hit');
-				});
-			});
-		}
-		var renderAnswers = function(answers, renderPoint){
-			var html = '';
-			_.each(answers, function(element){
-				html = html.concat(
-				'<div>',
-					'<span>',
+	var convertSentenceToWords= function(sentence, sentenceIndex){
+		return _.map(sentence.split(' '),function(element, index){
+			//Create The Tags and behavior of a single word
+			return $().add(''.concat(
+					"<span class='word'>",
 						element,
-					'</span>',
-					'<input>',
-					'<button id="removeSentence">X</button>',
-				'</div>'
-				);
+					"</span>"
+				)
+			).click(function(){
+				var answerStr = '';
+				for (var i = 0; i <= index; i++) {
+					answerStr += conText[sentenceIndex][i].text() + ' ';
+				};
+				addAnswer(answerStr);
+				render();
 			});
-			$(renderPoint).html(html);
-		}
+			//------------
+		});
+	};
 
-		renderSentences(sentences, '.sentences');
-		renderAnswers(['adlsfkj','adsf','hi there', 'what do you what'],'.answers');
+	var addAnswer = function(text){
+		var html = $().add(''.concat(
+				'<div class="answer">',
+					'<span class="text">',
+						text,
+					'</span>',
+					'<span class="input">',
+						'<button onclick="createText.removeSentence('+answers.length+')"id="removeSentence">X</button>',
+						'<input>',
+					'</span>',
+				'</div>'
+			)
+		);
+
+		answers.push(html);
+		return html;
 	}
+	createText.removeSentence = function(id){
+		answers[id] = undefined;
+		render();
+	}
+	var render = function(){
+		if(!render.init){
+			render.init = true;
+			$(renderPoint).html(''.concat(
+				'<div class="paragraph">',
+					'<div class="sentences">',
+					'</div>',
+					'<div class="answers">',
+					'</div>',
+				'</div>'
+			));
+		}
+		_.each(conText, function(element){
+			$('.sentences').append(element);
+		});
+		$('.answers').html('');
+		_.each(answers, function(element){
+			$('.answers').append(element);
+		});
+		
+		//answer senction of the field
 
-	$(renderPoint).html(''.concat(
-		'<div class="paragraph">',
-			'<div class="sentences">',
-			'</div>',
-			'<div class="answers">',
-			'</div>',
-		'</div>'
-	));
-	render(getSentences(text));
+		// $(renderPoint).append('<div class="answers">');
+		// 	$(renderPoint).append(_.map(answers, function(element){
+		// 		return ''.concat(
+		// 		'<div class="answer">',
+		// 			'<span>',
+		// 				element,
+		// 			'</span>',
+		// 			'<input>',
+		// 			'<button id="removeSentence">X</button>',
+		// 		'</div>'
+		// 		);
+		// 	}).join(''));
+		// $(renderPoint).append('</div>');
+	};
+
+
+	conText = [];
+	answers = [];
+	//slice the text into sentences
+	while(text.length){
+		var index = text.search(/[.!?]/)+1;
+		conText.push(text.slice(0,index));
+		text = text.slice(index,text.length);
+	}
+	//slice each sentence into words
+	conText = _.map(conText, function(element,index){
+		return convertSentenceToWords(element,index);
+	});
+
+	render();
+
 }

@@ -10,3 +10,47 @@
 	background: #333;
 	color: white;
 }
+
+.sentences{
+	border : 0px #333 solid;
+	border-bottom-width: 1px;
+	padding: 10px;
+	width: 100%;
+	display: block;
+}
+.answers{
+	margin: 10px;
+	margin-top: 20px;
+	width: 100%;
+}
+.answer{
+	margin-top: 15px;
+	width: 100%;
+	float: left;
+}
+.answer:nth-child(even){
+	background: #ddd;
+}
+.answer .text{
+	display: inline;
+	width: 100px;
+}
+.answer .input{
+
+	float: right;
+	min-width: 50%;
+	padding-right: 20px;
+}
+.answer input{
+	float: right;
+	min-width: 80%;
+	height: 16px;
+	border: 1px #333 solid;
+	border-right-width: 0px;
+}
+.answer button{
+	float: right;
+	border: 1px black solid;
+	border-radius: 0px;
+	height: 20px;
+}
