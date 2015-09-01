@@ -6,7 +6,7 @@ var text = 'I am a sentence slice me; No, for real slice me up. I am here to be 
 
 $(document).ready(function(){
 	//createSentence(sentence, '#sentence');
-	createText('#sentence', text);
+	createText('#field', text);
 });
 
 var createText = function(renderPoint, text){
@@ -25,7 +25,6 @@ var createText = function(renderPoint, text){
 					answerStr += conText[sentenceIndex][i].text() + ' ';
 				};
 				addAnswer(answerStr);
-				render();
 			});
 			//------------
 		});
@@ -38,17 +37,17 @@ var createText = function(renderPoint, text){
 						text,
 					'</span>',
 					'<span class="input">',
-						'<button onclick="createText.removeSentence('+answers.length+')"id="removeSentence">X</button>',
+						'<button onclick="createText.removeSentence('+answers.length+')" id="removeSentence">X</button>',
 						'<input>',
 					'</span>',
 				'</div>'
 			)
 		);
-
 		answers.push(html);
-		return html;
+		render();
 	}
 	createText.removeSentence = function(id){
+		undo.push([id,answers[id]]);
 		answers[id] = undefined;
 		render();
 	}
@@ -57,46 +56,55 @@ var createText = function(renderPoint, text){
 			render.init = true;
 			$(renderPoint).html(''.concat(
 				'<div class="paragraph">',
+					'<button class="mainBtn undo">Undo</button>',
+					'<button class="mainBtn finished">Finished</button>',
 					'<div class="sentences">',
 					'</div>',
 					'<div class="answers">',
 					'</div>',
 				'</div>'
 			));
+
+			//controller for the finish btn
+			$(renderPoint).children('div').children('.finished').click(function(){
+				var finished = {
+					text : text,
+					answers : _.map(answers, function(element){
+						if(element) return [ element.children('.text').text(), element.children('.input').children('input').val()];
+					})
+				};
+				console.log(JSON.stringify(finished));
+			})
+
+			//controller for the undo btn
+			$(renderPoint).children('div').children('.undo').click(function(){
+				var val = undo.pop();
+				answers[val[0]] = val[1];
+				render();
+			})
 		}
 		_.each(conText, function(element){
-			$('.sentences').append(element);
+			_.each(element, function(element){
+				$('.sentences').append(element);
+				$('.sentences').append(' ');
+			});
 		});
 		$('.answers').html('');
 		_.each(answers, function(element){
 			$('.answers').append(element);
 		});
-		
-		//answer senction of the field
-
-		// $(renderPoint).append('<div class="answers">');
-		// 	$(renderPoint).append(_.map(answers, function(element){
-		// 		return ''.concat(
-		// 		'<div class="answer">',
-		// 			'<span>',
-		// 				element,
-		// 			'</span>',
-		// 			'<input>',
-		// 			'<button id="removeSentence">X</button>',
-		// 		'</div>'
-		// 		);
-		// 	}).join(''));
-		// $(renderPoint).append('</div>');
 	};
 
 
 	conText = [];
-	answers = [];
+	var answers = [];
+	var undo = [];
 	//slice the text into sentences
-	while(text.length){
-		var index = text.search(/[.!?]/)+1;
-		conText.push(text.slice(0,index));
-		text = text.slice(index,text.length);
+	var textBackup = text;
+	while(textBackup.length){
+		var index = textBackup.search(/[.!?]/)+1;
+		conText.push(textBackup.slice(0,index));
+		textBackup = textBackup.slice(index,textBackup.length);
 	}
 	//slice each sentence into words
 	conText = _.map(conText, function(element,index){
