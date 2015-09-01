@@ -1,0 +1,13 @@
+This is so we don't have to hunt for which env vars we need on the server. If we need one it should be on this list.
+
+To change env on heroku do something like this: 
+	heroku config:set S3_KEY=8N029N81 S3_SECRET=9s83109d3+583493190
+
+PORT
+emailAuthUser
+emailAuthPassword
+emailMike
+emailSam
+
+
+heroku config:set emailAuthUser= emailAuthPassword= emailMike= emailSam=

@@ -1,7 +1,8 @@
 
 var http = require('http');
 var static = require( 'node-static' );
-var port = process.env.PORT || 5000;
+var config = require( './server/config/config' );
+
 
 var file = new static.Server( './client', {
     cache: 3600,
@@ -12,8 +13,10 @@ http.createServer( function ( request, response ) {
     request.addListener( 'end', function () {
         file.serve( request, response );
     } ).resume();
-} ).listen( port, function() {
-  console.log('Node app is running on port', port);
+} ).listen( config.port, function() {
+  console.log('Node app is running on port', config.port);
 });
-
-
+/*
+var email = require('./server/email');
+email.send('Testing Subject','This is the body of the email');
+*/

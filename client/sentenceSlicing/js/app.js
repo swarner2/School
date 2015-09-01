@@ -73,7 +73,7 @@ var createText = function(renderPoint, text){
 						if(element) return [ element.children('.text').text(), element.children('.input').children('input').val()];
 					})
 				};
-				console.log(JSON.stringify(finished));
+				window.prompt("Copy to clipboard then submit it to the teacher:", JSON.stringify(finished));
 			})
 
 			//controller for the undo btn
