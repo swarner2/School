@@ -36,10 +36,10 @@ var createText = function(renderPoint, text){
 					'<span class="text">',
 						text,
 					'</span>',
-					'<span class="input">',
+					'<div class="input">',
 						'<button onclick="createText.removeSentence('+answers.length+')" id="removeSentence">X</button>',
 						'<input>',
-					'</span>',
+					'</div>',
 				'</div>'
 			)
 		);

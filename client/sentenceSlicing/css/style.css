@@ -1,3 +1,6 @@
+@-ms-viewport{
+  width: device-width;
+}
 body{
 	font-size:18px;
 }
@@ -35,8 +38,11 @@ body{
 }
 .answer .input{
 	float: right;
-	min-width: 50%;
+	min-width: 100%;
 	padding-right: 20px;
+}
+.answer .input input{
+	width: calc(100% - 49px);
 }
 .answer input{
 	float: right;
@@ -44,13 +50,15 @@ body{
 	height: 22px;
 	border: 1px #333 solid;
 	border-right-width: 0px;
+	border-radius: 0px;
 }
 .answer button{
 	float: right;
-	border: 1px black solid;
+	border: 1px #333 solid;
 	border-radius: 0px;
 	height: 26px;
 	width: 26px;
+	text-align: center;
 }
 .mainBtn{
 	margin: 10px;
