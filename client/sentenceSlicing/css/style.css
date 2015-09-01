@@ -8,6 +8,10 @@ button{
 	-webkit-appearance: none;
 	-moz-appearance: none;
 }
+input{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
 .word{
 	font-size: 20px;
 }
