@@ -3,7 +3,10 @@
 }
 body{
 	font-size:18px;
+}
+button{
 	-webkit-appearance: none;
+	-moz-appearance: none;
 }
 .word{
 	font-size: 20px;
