@@ -37,8 +37,8 @@ var createText = function(renderPoint, text){
 						text,
 					'</span>',
 					'<div class="input">',
-						'<button onclick="createText.removeSentence('+answers.length+')" id="removeSentence">X</button>',
 						'<input>',
+						'<button onclick="createText.removeSentence('+answers.length+')" id="removeSentence">X</button>',
 					'</div>',
 				'</div>'
 			)
@@ -54,6 +54,7 @@ var createText = function(renderPoint, text){
 	var render = function(){
 		if(!render.init){
 			render.init = true;
+			//nav bar
 			$(renderPoint).html(''.concat(
 				'<div class="paragraph">',
 					'<button class="mainBtn undo">Undo</button>',
