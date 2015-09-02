@@ -59,10 +59,12 @@ var createText = function(renderPoint, text){
 				'<div class="paragraph">',
 					'<button class="mainBtn undo">Undo</button>',
 					'<button class="mainBtn finished">Finished</button>',
+					'<span class="prompt"></span>',
 					'<div class="sentences">',
 					'</div>',
 					'<div class="answers">',
 					'</div>',
+					'<textarea id="results"></textarea>',
 				'</div>'
 			));
 
@@ -75,7 +77,38 @@ var createText = function(renderPoint, text){
 					})
 				};
 
-				window.prompt("Copy to clipboard then submit it to the teacher:", JSON.stringify(finished));
+				//making the results display in a nice way
+				//the text
+				var resultsText = ''.concat(
+					'Text : ' , finished.text,
+					'\n\n'
+				);
+				//answers
+				var counter = 1;
+				_.each(finished.answers,function(element, index){
+					if(element){
+						resultsText = resultsText.concat(
+							(counter++), '. ', element[0],
+							'\n',
+							'Meaning : ', element[1],
+							'\n\n'
+						);
+					}
+				});
+				$('#results').text(resultsText);
+				$('#results').select()
+				try {
+					var successful = document.execCommand('copy');
+					var msg = successful ? 'successful' : 'unsuccessful';
+					if(msg === 'unsuccessful'){
+						$('.prompt').text('Oops, unable to copy. You can copy manually from text field below.');
+					}else{
+						$('.prompt').text('Your chipboard has your results.');	
+					}
+				}catch (err) {
+					$('.prompt').text('Oops, unable to copy. You can copy manually from text field below.');
+				}
+				//window.prompt("Copy to clipboard then submit it to the teacher:", JSON.stringify(finished));
 			})
 
 			//controller for the undo btn

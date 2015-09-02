@@ -83,3 +83,18 @@ input{
 	width: 60px;
 	text-align: center;
 }
+#results{
+	display: inline-block;
+	width: 90%;
+	margin-left: 4%;
+	height: 100px;
+	margin-top: 50px; 
+	border: 0px solid #333;
+	padding: 10px;
+	overflow: visible;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+.prompt{
+	padding-left: 10px;
+}
