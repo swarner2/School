@@ -85,13 +85,14 @@ input{
 }
 #results{
 	display: inline-block;
-	width: 90%;
-	margin-left: 4%;
+	width: calc(100% - 37px);
+	margin-left: 10px;
 	height: 100px;
-	margin-top: 50px; 
-	border: 0px solid #333;
+	margin-top: 40px; 
+	border: 1px solid #333;
 	padding: 10px;
 	overflow: visible;
+	visibility: hidden;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 }

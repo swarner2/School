@@ -1,32 +1,12 @@
 
 
+var text = decodeURI(window.location.search).slice(1);
 
-var QueryString = function () {
-  var query_string = {};
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
-    if (typeof query_string[pair[0]] === "undefined") {
-      query_string[pair[0]] = decodeURIComponent(pair[1]);
-    } else if (typeof query_string[pair[0]] === "string") {
-      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-      query_string[pair[0]] = arr;
-    } else {
-      query_string[pair[0]].push(decodeURIComponent(pair[1]));
-    }
-  } 
-    return query_string;
-}();
-
-//console.log(QueryString.text);
-
-var text = QueryString.text;
-
-
+if(text.length === 0){
+	text = 'Error while loading URI code.';
+}
 
 $(document).ready(function(){
-	//createSentence(sentence, '#sentence');
 	createText('#field', text);
 });
 
@@ -43,10 +23,10 @@ var createText = function(renderPoint, text){
 				)
 			).click(function(){
 				var answerStr = '';
-				for (var i = 0; i <= index; i++) {
-					if(i===index)
+				for (var wordIndex = 0; wordIndex <= index; wordIndex++) {
+					if(wordIndex===index)
 						word[1] = true;
-					answerStr += conText[sentenceIndex][i][0].text() + ' ';
+					answerStr += conText[sentenceIndex][wordIndex][0].text() + ' ';
 				};
 				addAnswer(answerStr);
 			});
@@ -64,7 +44,9 @@ var createText = function(renderPoint, text){
 					'</span>',
 					'<div class="input">',
 						'<input>',
-						'<button onclick="createText.removeSentence('+answers.length+')" id="removeSentence">X</button>',
+						'<button onclick="createText.removeSentence('+answers.length+')" id="removeSentence">',
+							'X',
+						'</button>',
 					'</div>',
 				'</div>'
 			)
@@ -102,7 +84,10 @@ var createText = function(renderPoint, text){
 					text : text,
 					textWithSlashes : getTextWithSlashes(),
 					answers : _.map(answers, function(element){
-						if(element) return [ element.children('.text').text(), element.children('.input').children('input').val()];
+						if(element) return [
+								element.children('.text').text(), 
+								element.children('.input').children('input').val()
+							];
 					})
 				};
 
@@ -136,6 +121,9 @@ var createText = function(renderPoint, text){
 							'\n\n'
 						);
 					}
+				});
+				$('#results').css({
+					visibility: 'visible'
 				});
 				$('#results').text(resultsText);
 				$('#results').select()
@@ -181,13 +169,17 @@ var createText = function(renderPoint, text){
 	};
 
 
-	conText = [];
+	var conText = [];
 	answers = [];
 	var undo = [];
 	//slice the text into sentences
 	var textBackup = text;
 	while(textBackup.length){
-		var index = textBackup.search(/[.!?]/)+1;
+		var index = textBackup.search(/[.!?]/);
+		if(index === -1) {	
+			index = textBackup.length-1;
+		}
+		index++;
 		conText.push(textBackup.slice(0,index));
 		textBackup = textBackup.slice(index,textBackup.length);
 	}
