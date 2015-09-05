@@ -14,7 +14,8 @@ var createText = function(renderPoint, text){
 	var convertSentenceToWords= function(sentence, sentenceIndex){
 		return _.map(sentence.split(' '),function(element, index){
 			//Create The Tags and behavior of a single word
-			return $().add(''.concat(
+			var word = []; 
+			word[0] = $().add(''.concat(
 					"<span class='word'>",
 						element,
 					"</span>"
@@ -22,10 +23,14 @@ var createText = function(renderPoint, text){
 			).click(function(){
 				var answerStr = '';
 				for (var i = 0; i <= index; i++) {
-					answerStr += conText[sentenceIndex][i].text() + ' ';
+					if(i===index)
+						word[1] = true;
+					answerStr += conText[sentenceIndex][i][0].text() + ' ';
 				};
 				addAnswer(answerStr);
 			});
+			word[1] = false;
+			return word;
 			//------------
 		});
 	};
@@ -48,6 +53,7 @@ var createText = function(renderPoint, text){
 	}
 	createText.removeSentence = function(id){
 		undo.push([id,answers[id]]);
+
 		answers[id] = undefined;
 		render();
 	}
@@ -69,18 +75,33 @@ var createText = function(renderPoint, text){
 			));
 
 			//controller for the finish btn
+
 			$(renderPoint).children('div').children('.finished').click(function(){
 				var finished = {
 					text : text,
+					textWithSlashes : getTextWithSlashes(),
 					answers : _.map(answers, function(element){
 						if(element) return [ element.children('.text').text(), element.children('.input').children('input').val()];
 					})
 				};
 
+				function getTextWithSlashes(){
+					return _.map(conText, function(element){
+						return _.map(element, function(element){
+
+							var returnedValue = element[0].text();;
+							if(element[1]){
+								returnedValue+='/'
+							}
+							return returnedValue;
+						}).join(' ');;
+					}).join('');
+				}
+
 				//making the results display in a nice way
 				//the text
 				var resultsText = ''.concat(
-					'Text : ' , finished.text,
+					finished.textWithSlashes,
 					'\n\n'
 				);
 				//answers
@@ -118,9 +139,17 @@ var createText = function(renderPoint, text){
 				render();
 			})
 		}
+
+		$('.slash').detach()
 		_.each(conText, function(element){
 			_.each(element, function(element){
-				$('.sentences').append(element);
+
+				$('.sentences').append(element[0]);
+				if(element[1]){
+					var g = $().add('<span class="slash">/</span>')
+					$('.sentences').append(g);
+					
+				}
 				$('.sentences').append(' ');
 			});
 		});
@@ -132,7 +161,7 @@ var createText = function(renderPoint, text){
 
 
 	conText = [];
-	var answers = [];
+	answers = [];
 	var undo = [];
 	//slice the text into sentences
 	var textBackup = text;
